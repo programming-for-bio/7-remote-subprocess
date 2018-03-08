@@ -11,26 +11,27 @@ random other repo to review.
 
 ### 1. Connect to the HPC cluster
 For this code-review you will be reviewing the other user's code by working 
-on the HPC cluster, cloning their repo, and working on it remotely. Then 
-you will push the changes back to your repo and make a pull request to the 
-class remote. 
+on the HPC cluster, pulling in their assignment file, and working on it 
+remotely. Then you will push the changes back to your repo and make a pull request to the class remote. 
 
-The code below will walk you through all of the `git` commands required to do this, which will include some more complicated methods than we've used in the past, but I'll explain each step as we run it. Let's start by 
-connecting to the cluster using our shorthand command we set up in class. 
+The `git` commands required to do this are bit more complex than we have used
+so far, but I'll explain each step as we run it and we should encounter no 
+problems. Let's start by connecting to the cluster using our shorthand 
+command we set up in class. 
 
 ```bash
 ssh habanero
 ```
 
 ### 2. cd into your 7-remote-subprocess repo directory
-You should have already cloned your forked 7-remote-subprocess repo during 
-your assignment. If not, clone it now, and cd into your directory. For me the path is `~/PDSB/7-remote-subprocess`, but you may have saved it in a slightly different place. 
+You should have already cloned **your** forked 7-remote-subprocess repo during 
+your assignment. If not, clone it now, and cd into that directory. For me the path is `~/PDSB/7-remote-subprocess`, but you may have saved it in a slightly different place. 
 
-Then we are going to create a new separate branch to work on, and on this 
-branch you'll pull in the changes that your assigned students pushed committed
-changes to on their master branch. We can pull in these changes simply by 
-entering the address of their git repo and the name of the requested branch. 
-You will then have access to their assignment files.
+Now that you are in your repo, we are going to create a new separate branch to work on for the code review, and on this branch you'll `pull` in changes in the
+form of all of the submitted assignments that have been pulled into the course
+version of the repo. We can pull in these changes simply by entering the 
+address of the course git repo and the name of the requested branch (master).
+You will then have access to all of the assignment files.
 
 
 ```bash
@@ -45,34 +46,31 @@ git pull https://github.com/programming-for-bio/7-remote-subprocess master
 ```
 
 When you do this `pull` command git is going to open a file with a simple
-message that should say that there were no merge conflicts. This file 
+message that will say that there were no merge conflicts. This file 
 will be opened with the default text editor, which on Habanero seems to be 
-vim, but which you can change later by calling 
-`git config --global core.editor nano`.
-For now, you do not need to do anything with this message but exit out of the
-file which if you are in the vim editor can be done by typing `:quit`. 
+vim, but which you can change by calling `git config --global core.editor nano`
+in the remote terminal. For now, you do not need to do anything with this 
+message but exit out of the file which if you are in the vim editor can be 
+done by typing `:quit`.
 
-You will now have the files from the other users repository. 
+You will now have the files from the other users' repositories.
 
-## check that their assignment file is now in your Assignment/ dir
+## check that assignment files are now in your Assignment/ dir
 ```bash
 ls -l Assignment/
 ```
 
 
-### 3. Make a copy of their Assignment notebook and rename it
+### 3. Make a copy of your assigned Assignment notebook and rename it
 
 Please rename the file exactly as instructed below. Take note that you are 
 changing the file name in the new copy so that instead of the other user's 
-github username it will have your github username in the file name. Choose the
-notebook 7.2 file for your assigned student to review, but if that student's
-assignment is missing then choose any other notebook 7.2 from the Assignment 
-directory to review. 
+github username it will have **your** github username in the file name. 
+Choose the notebook 7.2 file for your assigned student review, but if that student's assignment is missing then choose any other notebook 7.2 from the Assignment directory to review. 
 
 ```bash
 cp Assignment/<their-username>-7.2.ipynb Code-Review/<your-username>.ipynb
 ```
-
 
 #### 4. Start a jupyter-notebook server to test their code 
 Submit an `sbatch` job to start a jupyter-notebook server running on a compute
@@ -86,10 +84,10 @@ sbatch /rigel/edu/w4050/files/jupyter-edu-one-hr.sbatch
 ```
 
 To check whether the job has started yet you can run the command 
-`squeue -u <uni>` or, a cool trick to get this command to repeat every N 
-seconds so that you sit back and watch until the job starts is to use the 
+`squeue -u <uni>` or, a cool unix trick to get this command to repeat every N 
+seconds so that you can sit back and watch until the job starts is to use the 
 `watch` command like below. This will print the output of the command updated
-every 1 second. When it start you can press control+c to stop it 
+every 1 second. When it starts you can press control+c to stop it 
 (the exact keys might be different on osx or windows, e.g., 
 `<windows-key>`+c, I'm not sure, but you'll figure it out). 
 
@@ -102,7 +100,7 @@ Once you see that the job has started running, follow the instructions that
 will be printed in the job's output file (written to the output directory), 
 as we did in notebook 7.3, to setup an SSH tunnel so that you can connect to 
 the notebook through a browser on your laptop. To find the file in the ouputs
-directory that was most recently updated you can use the `ls` command with the
+directory that was most recently generated you can use the `ls` command with the
 arguments `-ltr`, meaning print as a list and sort by time and reverse the order. 
 
 ```bash
@@ -110,21 +108,21 @@ arguments `-ltr`, meaning print as a list and sort by time and reverse the order
 ls -ltr ~/outputs/
 ```
 
-
 #### 5. Open the code review notebook
 Since we made a copy of the notebook we can edit this version as much as we
-want, and so we will be using it to write our code reviews. From the jupyter
-notebook server open in your browser, open the code review notebook file 
+want without worrying about overwriting that persons assignment file. 
+We will be use this copied file to write our code reviews. From the jupyter
+notebook server open in your browser (e.g., from localhost:xxxx where xxxx is
+the port number listed in the output file), open the code review notebook file 
 that you created in
 `~/PDSB/7-remote-subprocess/Code-Review/<your-username>.ipynb`. 
-
 
 #### 6. Test their code
 In the toolbar at the top of the notebook select the tab named `Cell`, and 
 then select the option `Run All`. This should execute the full notebook 
 successfully, including importing all libraries, storing variables like 
 "fasta_data" and "fasta_string", and loading the `Phylogeny` Class object 
-that the student wrote. 
+that the student wrote and running it.
 
 
 #### 7. Code Review
@@ -135,15 +133,14 @@ clearly writing you answer to it. Start you answer by writing **Yes or No** to e
 
 
 **1. Does the run function fill all attributes?**.   
-The instructions asked that "`all of the attribute variables in __init__ (e.g., self.aligned) are filled by functions called during the .run() function.`". Copy the code below into a code cell and run it to test whether all of the attributes of the instance 
-are changed to be not None after `run` is called. 
+The instructions asked that "`all of the attribute variables in __init__ (e.g., self.aligned) are filled by functions called during the .run() function.`". Copy the code below into a code cell and run it to test whether all of the attributes of the instance are changed to be not None after `run` is called. 
 
 ```python
 p = Phylogeny(fasta_string)
 p.run(outname="code-review")
 
 for attribute in [p.fasta, p.aligned, p.phylip, p.tree, p.log]:
-    attribute is None:
+    if attribute is None:
     	print("the attribute {} should have been filled".format(attribute))
 ```
 
