@@ -40,15 +40,17 @@ cd PDSB/7-remote-ssh/
 ## create and switch to a new branch named code-review
 git checkout -b code-review
 
-## pull your assigned student's master branch changes into this branch
-git pull https://github.com/vjjan91/7-remote-subprocess master
+## pull the submitted Assignments from the course repo into this branch
+git pull https://github.com/programming-for-bio/7-remote-subprocess master
 ```
 
 When you do this `pull` command git is going to open a file with a simple
-message that should say that there were no merge conflicts. This will file 
+message that should say that there were no merge conflicts. This file 
 will be opened with the default text editor, which on Habanero seems to be 
-vim. You do not need to do anything with this message but exit out of the file
-which you can by typing `:quit`. 
+vim, but which you can change later by calling 
+`git config --global core.editor nano`.
+For now, you do not need to do anything with this message but exit out of the
+file which if you are in the vim editor can be done by typing `:quit`. 
 
 You will now have the files from the other users repository. 
 
@@ -59,9 +61,13 @@ ls -l Assignment/
 
 
 ### 3. Make a copy of their Assignment notebook and rename it
+
 Please rename the file exactly as instructed below. Take note that you are 
 changing the file name in the new copy so that instead of the other user's 
-github username it will have your github username in the file name. 
+github username it will have your github username in the file name. Choose the
+notebook 7.2 file for your assigned student to review, but if that student's
+assignment is missing then choose any other notebook 7.2 from the Assignment 
+directory to review. 
 
 ```bash
 cp Assignment/<their-username>-7.2.ipynb Code-Review/<your-username>.ipynb
@@ -207,6 +213,8 @@ this branch to GitHub if we think we have some reason to keep it long term,
 or, we can merge it back into our master branch. We'll do the latter. 
 
 ```bash
+## switch to your master branch and merge in changes from the code-review branch
+git checkout master
 git merge code-review master
 ```
 
@@ -219,5 +227,29 @@ origin remote and then on GitHub make a pull-request to the course remote.
 git push origin master
 ```
 
-Don't forget to make your pull request. 
+Don't forget to make your pull request on GitHub.
+
+
+
+### Code Review Table
+
+| Student | Assigned repo to review |
+| --------| ------------------------|
+| apf2139 | meairey |
+| anikap22 | 	jessicahoch |
+|  aprocton	| juliazeh |
+| chloehacker |	apf2139
+| cs3425  |	kuratanp
+| drs22Col |Wenyi909 | 
+| izrubin | mvanack | 
+| jessicahoch | izrubin | 
+| juliazeh | drs22Col | 
+| kuratanp | nehasavant | 
+| lucasrocmoreira | anikap22 | 
+| meairey | lucasrocmoreira | 
+| mistergroot | chloehacker | 
+| mvanack | vjjan91 | 
+| nehasavant | mistergroot | 
+| vjjan91 | cs3425 | 
+| Wenyi909 | aprocton |
 
