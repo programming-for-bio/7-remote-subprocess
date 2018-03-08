@@ -44,14 +44,30 @@ git checkout -b code-review
 ## pull the submitted Assignments from the course repo into this branch
 git pull https://github.com/programming-for-bio/7-remote-subprocess master
 ```
-
-When you do this `pull` command git is going to open a file with a simple
-message that will say that there were no merge conflicts. This file 
-will be opened with the default text editor, which on Habanero seems to be 
-vim, but which you can change by calling `git config --global core.editor nano`
-in the remote terminal. For now, you do not need to do anything with this 
-message but exit out of the file which if you are in the vim editor can be 
-done by typing `:quit`.
+ 
+It wil then print a message similar to below, but with more files updated 
+in it. This is telling you which files were added to the repo, or changed 
+in it relative to your version. The course remote has everyones' assignments
+on it so you are mostly pulling in those assignment files.
+```
+[de2356@watson testdir]$ git pull https://github.com/programming-for-bio/7-remote-subprocess master
+remote: Counting objects: 39, done.
+remote: Compressing objects: 100% (25/25), done.
+remote: Total 39 (delta 18), reused 26 (delta 9), pack-reused 0
+Unpacking objects: 100% (39/39), done.
+From https://github.com/programming-for-bio/7-remote-subprocess
+ * branch            master     -> FETCH_HEAD
+Updating c183a46..91f5f83
+Fast-forward
+ Assignment/kuratanp-7.3.ipynb | 275 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Assignment/mvanack-7.3.ipynb  | 275 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Code-Review/README.md         | 254 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Lecture/PDSB-Lecture-7.pdf    | Bin 0 -> 1575109 bytes
+ 4 files changed, 804 insertions(+)
+ create mode 100644 Assignment/kuratanp-7.3.ipynb
+ create mode 100644 Assignment/mvanack-7.3.ipynb
+ create mode 100644 Lecture/PDSB-Lecture-7.pdf
+```
 
 You will now have the files from the other users' repositories.
 
