@@ -1,0 +1,186 @@
+## Code-Review
+
+See the table at the bottom of this README for your assigned repo to review. 
+If the person you are assigned to has not completed their assignment by the 
+time you start your review (after 5pm on Friday) then you can choose any 
+random other repo to review. 
+
+
+## Instructions
+
+
+### 1. Connect to the HPC cluster
+For this code-review you will be reviewing the other user's code by working 
+on the HPC cluster, cloning their repo, and working on it remotely. Then 
+you will push the changes back to your repo and make a pull request to the 
+class remote. 
+
+The code below will walk you through all of the `git` commands required to do this, which will include some more complicated methods than we've used in the past, but I'll explain each step as we run it. Let's start by 
+connecting to the cluster using our shorthand command we set up in class. 
+
+```bash
+ssh habanero
+```
+
+### 2. cd into your 7-remote-subprocess repo directory
+You should have already cloned your forked 7-remote-subprocess repo during 
+your assignment. If not, clone it now, and cd into your directory. For me the path is `~/PDSB/7-remote-subprocess`, but you may have saved it in a slightly different place. 
+
+Then we are going to create a new separate branch to work on, and on this 
+branch you'll pull in the changes that your assigned students pushed committed
+changes to on their master branch. We can pull in these changes simply by 
+entering the address of their git repo and the name of the requested branch. 
+You will then have access to their assignment files.
+
+
+```bash
+## cd into your 7-remote-ssh git repo
+cd PDSB/7-remote-ssh/
+
+## create and switch to a new branch named code-review
+git checkout -b code-review
+
+## pull your assigned student's master branch changes into this branch
+git pull https://github.com/vjjan91/7-remote-subprocess master
+```
+
+When you do this `pull` command git is going to open a file with a simple
+message that should say that there were no merge conflicts. This will file 
+will be opened with the default text editor, which on Habanero seems to be 
+vim. You do not need to do anything with this message but exit out of the file
+which you can by typing `:quit`. 
+
+You will now have the files from the other users repository. 
+
+## check that their assignment file is now in your Assignment/ dir
+```bash
+ls -l Assignment/
+```
+
+
+### 3. Make a copy of their Assignment notebook and rename it
+Please rename the file exactly as instructed below. Take note that you are 
+changing the file name in the new copy so that instead of the other user's 
+github username it will have your github username in the file name. 
+
+```bash
+cp Assignment/<their-username>-7.2.ipynb Code-Review/<your-username>.ipynb
+```
+
+
+#### 4. Start a jupyter-notebook server to test their code 
+Submit an `sbatch` job to start a jupyter-notebook server running on a compute
+node and connect to it so that you can test their code running on Linux. You 
+can use the sbatch script from our shared scratch space by entering the 
+command below, which will start a job running for 1 hour.  
+
+```bash
+## submit job request
+sbatch /rigel/edu/w4050/files/jupyter-edu-one-hr.sbatch
+```
+
+To check whether the job has started yet you can run the command 
+`squeue -u <uni>` or, a cool trick to get this command to repeat every N 
+seconds so that you sit back and watch until the job starts is to use the 
+`watch` command like below. This will print the output of the command updated
+every 1 second. When it start you can press control+c to stop it 
+(the exact keys might be different on osx or windows, e.g., 
+`<windows-key>`+c, I'm not sure, but you'll figure it out). 
+
+```bash
+## print whether the job has started every 1 second
+watch -n 1 'squeue -u de2356'
+```
+
+Once you see that the job has started running, follow the instructions that
+will be printed in the job's output file (written to the output directory), 
+as we did in notebook 7.3, to setup an SSH tunnel so that you can connect to 
+the notebook through a browser on your laptop. To find the file in the ouputs
+directory that was most recently updated you can use the `ls` command with the
+arguments `-ltr`, meaning print as a list and sort by time and reverse the order. 
+
+```bash
+## list files in the directory reverse time sorted
+ls -ltr ~/outputs/
+```
+
+
+#### 5. Open the code review notebook
+Since we made a copy of the notebook we can edit this version as much as we
+want, and so we will be using it to write our code reviews. From the jupyter
+notebook server open in your browser, open the code review notebook file 
+that you created in
+`~/PDSB/7-remote-subprocess/Code-Review/<your-username>.ipynb`. 
+
+
+#### 6. Test their code
+In the toolbar at the top of the notebook select the tab named `Cell`, and 
+then select the option `Run All`. This should execute the full notebook 
+successfully, including importing all libraries, storing variables like 
+"fasta_data" and "fasta_string", and loading the `Phylogeny` Class object 
+that the student wrote. 
+
+
+#### 7. Code Review
+Create new cells at the bottom of the notebook separated by a large header in 
+Markdown to label the section `Code-Review`. Then, using markdown answer the 
+questions below in your notebook by copying the question into a cell and 
+clearly writing you answer to it. Start you answer by writing **Yes or No** to each question, followed by further explanation after following the instructions for each question.
+
+
+**1. Does the run function fill all attributes?**.   
+The instructions asked that "`all of the attribute variables in __init__ (e.g., self.aligned) are filled by functions called during the .run() function.`". Copy the code below into a code cell and run it to test whether all of the attributes of the instance 
+are changed to be not None after `run` is called. 
+
+```python
+p = Phylogeny(fasta_string)
+p.run(outname="code-review")
+
+for attribute in [p.fasta, p.aligned, p.phylip, p.tree, p.log]:
+    attribute is None:
+    	print("the attribute {} should have been filled".format(attribute))
+```
+
+
+**2. Does the `_run_raxml` function remove previous run files?**.  
+The instructions asked that "`the _run_raxml() function removes an existing output file with the same name if it exists.`". Look at the code for the `_run_raxml`
+function. Is there a conditional statement, or any kind of check for whether 
+an output file already exists using the given outname argument? If so, explain
+how they did it, and how this compares to your implementation.
+
+
+
+**3. Does their code modify the raxml command to set the name of the output 
+file?**.  
+The instructions asked that "`the _run_raxml() function modifies the command for raxml by replacing the argument -n out with -n <outname>, and then running it with subprocess and parsing the result.`".  
+Again, look at the code in `_run_raxml`, do they include the outname
+variable in this command after the `-n` flag? Run the code below to check 
+whether a file is created using the outname variable. 
+
+```python
+p = Phylogeny(fasta_string)
+p.run(outname="code-review")
+
+import os
+os.path.exists("./RAxML_bestTree.code-review")
+```
+
+**4. Does the `_run_raxml` function parse the RAxML_bestTree file as a
+string?**  
+The instructions asked that "`the _run_raxml() function parses the 
+result from the raxml output file RAxML_bestTree.<outname> as a string and 
+returns it.`". To parse the file as a string means to open and read the 
+content of it and store the results as a string variable. In the skeleton 
+code that I provided it was implied that this should be stored in `self.tree`.
+The following code will test `self.tree` matches the content of the output
+file. 
+
+
+```python
+p = Phylogeny(fasta_string)
+p.run(outname="code-review")
+
+# open the bestTree file and compare it to self.tree as string data
+with open("./RAxML_bestTree.code-review", 'r') as treedata:
+    print(p.tree == treedata.read())
+```
