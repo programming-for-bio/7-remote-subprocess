@@ -184,3 +184,40 @@ p.run(outname="code-review")
 with open("./RAxML_bestTree.code-review", 'r') as treedata:
     print(p.tree == treedata.read())
 ```
+
+
+### 8. Submit your Code Review
+
+So to recap on our `git` situation, we created a new branch on which we pulled
+in changes that another student had made to the code in the repo. And then 
+we made some additional changes on top of that by copying a file into the 
+Code-Review/ directory and making changes to that. So how are we going to get 
+the just the files that changed onto our repo? Simple, none of the changes that
+we made, or that the other user made, have yet been committed in our repo. 
+So to add our code review we just need to make sure this is the only file that
+we add and commit. 
+
+```bash
+git add Code-Review/<your-username>.ipynb
+git commit -m "completed by code review"
+```
+
+Ok, so now we have made a commit on our new branch. We could either push 
+this branch to GitHub if we think we have some reason to keep it long term, 
+or, we can merge it back into our master branch. We'll do the latter. 
+
+```bash
+git merge code-review master
+```
+
+Now your master branch has inherited the commits that you made on the 
+code-review branch. It is like you made these add and commit calls on the 
+master branch itself. To finish, push these commits back to your GitHub 
+origin remote and then on GitHub make a pull-request to the course remote. 
+
+```bash
+git push origin master
+```
+
+Don't forget to make your pull request. 
+
