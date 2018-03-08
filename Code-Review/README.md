@@ -69,9 +69,8 @@ Fast-forward
  create mode 100644 Lecture/PDSB-Lecture-7.pdf
 ```
 
-You will now have the files from the other users' repositories.
+You will now have the files from the other users' repositories. Check that assignment files are now in your Assignment/ dir using ls. 
 
-## check that assignment files are now in your Assignment/ dir
 ```bash
 ls -l Assignment/
 ```
@@ -148,7 +147,7 @@ questions below in your notebook by copying the question into a cell and
 clearly writing you answer to it. Start you answer by writing **Yes or No** to each question, followed by further explanation after following the instructions for each question.
 
 
-**1. Does the run function fill all attributes?**.   
+**7.1. Does the run function fill all attributes?**.   
 The instructions asked that "`all of the attribute variables in __init__ (e.g., self.aligned) are filled by functions called during the .run() function.`". Copy the code below into a code cell and run it to test whether all of the attributes of the instance are changed to be not None after `run` is called. 
 
 ```python
@@ -161,12 +160,12 @@ for attribute in [p.fasta, p.aligned, p.phylip, p.tree, p.log]:
 ```
 
 
-**2. Does the `_run_raxml` function remove previous run files?**.  
+**7.2. Does the `_run_raxml` function remove previous run files?**.  
 The instructions asked that "`the _run_raxml() function removes an existing output file with the same name if it exists.`". Look at the code for the `_run_raxml` function. Is there a conditional statement, or any kind of check for whether  an output file already exists using the given outname argument? If so, explain how they did it, and how this compares to your implementation.
 
 
 
-**3. Does their code modify the raxml command to set the name of the output 
+**7.3. Does their code modify the raxml command to set the name of the output 
 file?**.  
 The instructions asked that "`the _run_raxml() function modifies the command for raxml by replacing the argument '-n out' with '-n <outname>', and then running it with subprocess and parsing the result.`".  
 Again, look at the code in `_run_raxml`, do they include the outname
@@ -181,7 +180,7 @@ import os
 os.path.exists("./RAxML_bestTree.code-review")
 ```
 
-**4. Does the `_run_raxml` function parse the RAxML_bestTree file as a
+**7.4. Does the `_run_raxml` function parse the RAxML_bestTree file as a
 string?**  
 The instructions asked that "`the _run_raxml() function parses the 
 result from the raxml output file RAxML_bestTree.<outname> as a string and 
