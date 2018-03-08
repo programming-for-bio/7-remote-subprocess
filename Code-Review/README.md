@@ -146,16 +146,13 @@ for attribute in [p.fasta, p.aligned, p.phylip, p.tree, p.log]:
 
 
 **2. Does the `_run_raxml` function remove previous run files?**.  
-The instructions asked that "`the _run_raxml() function removes an existing output file with the same name if it exists.`". Look at the code for the `_run_raxml`
-function. Is there a conditional statement, or any kind of check for whether 
-an output file already exists using the given outname argument? If so, explain
-how they did it, and how this compares to your implementation.
+The instructions asked that "`the _run_raxml() function removes an existing output file with the same name if it exists.`". Look at the code for the `_run_raxml` function. Is there a conditional statement, or any kind of check for whether  an output file already exists using the given outname argument? If so, explain how they did it, and how this compares to your implementation.
 
 
 
 **3. Does their code modify the raxml command to set the name of the output 
 file?**.  
-The instructions asked that "`the _run_raxml() function modifies the command for raxml by replacing the argument -n out with -n <outname>, and then running it with subprocess and parsing the result.`".  
+The instructions asked that "`the _run_raxml() function modifies the command for raxml by replacing the argument '-n out' with '-n <outname>', and then running it with subprocess and parsing the result.`".  
 Again, look at the code in `_run_raxml`, do they include the outname
 variable in this command after the `-n` flag? Run the code below to check 
 whether a file is created using the outname variable. 
@@ -175,7 +172,7 @@ result from the raxml output file RAxML_bestTree.<outname> as a string and
 returns it.`". To parse the file as a string means to open and read the 
 content of it and store the results as a string variable. In the skeleton 
 code that I provided it was implied that this should be stored in `self.tree`.
-The following code will test `self.tree` matches the content of the output
+The following code will test if `self.tree` matches the content of the output
 file. 
 
 
@@ -191,23 +188,26 @@ with open("./RAxML_bestTree.code-review", 'r') as treedata:
 
 ### 8. Submit your Code Review
 
-So to recap on our `git` situation, we created a new branch on which we pulled
-in changes that another student had made to the code in the repo. And then 
-we made some additional changes on top of that by copying a file into the 
-Code-Review/ directory and making changes to that. So how are we going to get 
-the just the files that changed onto our repo? Simple, none of the changes that
-we made, or that the other user made, have yet been committed in our repo. 
-So to add our code review we just need to make sure this is the only file that
-we add and commit. 
+So, to recap on our `git` situation, we created a new branch on which we pulled
+in committed changes that other students had made to their code and which had 
+been merged into the course repo using pull-requests. When we pulled in these 
+changes to our new branch the files on that branch were modified, however none
+of those changes are yet tracked on our branch (no add or commit calls have 
+been made by us yet). Then we made some more changes to the files on this branch by copying a file into the Code-Review/ directory and making changes to that. 
+
+So how are we going to get eventually push only the changes to files that we changed to our repo? Simple, none of the changes that were made by other users
+have been added or committed to this branch. So to add our code review we just need to make sure that this file is the only file that we add and commit. 
 
 ```bash
+## add and commit only changes to your code-review file to your code-review branch
 git add Code-Review/<your-username>.ipynb
 git commit -m "completed by code review"
 ```
 
-Ok, so now we have made a commit on our new branch. We could either push 
-this branch to GitHub if we think we have some reason to keep it long term, 
-or, we can merge it back into our master branch. We'll do the latter. 
+When you commit a message will popup saying that there are many untracked files
+in your repo. That is fine, we don't care about these other files. We only 
+wanted to commit changes to the one file in Code-Review/ that we changed ourselves. Now that we have made a commit on our new branch, 
+we could either push this branch to GitHub if we think we have some reason to keep it long term, or, we can merge it back into our master branch. We'll do the latter. 
 
 ```bash
 ## switch to your master branch and merge in changes from the code-review branch
@@ -216,8 +216,10 @@ git merge code-review master
 ```
 
 Now your master branch has inherited the commits that you made on the 
-code-review branch. It is like you made these add and commit calls on the 
-master branch itself. To finish, push these commits back to your GitHub 
+code-review branch. It is like you made the add and commit call on the 
+master branch itself, except none of those other untracked files on the 
+code-review branch are present on your master branch. You kept it nice and 
+clearn. To finish, push these commits back to your GitHub 
 origin remote and then on GitHub make a pull-request to the course remote. 
 
 ```bash
